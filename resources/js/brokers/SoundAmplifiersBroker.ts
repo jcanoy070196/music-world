@@ -3,6 +3,8 @@
 import BrokerCore from './BrokerCore';
 import SoundAmplifier from '../models/SoundAmplifier';
 
+
+
 export default class SoundAmplifiersBroker{
 
     private _brokerCore : BrokerCore;
@@ -15,7 +17,7 @@ export default class SoundAmplifiersBroker{
     public async getSoundAmplifiers()
     {
         try {
-            let response =   await this._brokerCore.apiGet('/api/sound-amplifiers');
+            let response =  await this._brokerCore.apiGet('/api/sound-amplifiers');
 
             return response.data;
         }
@@ -27,7 +29,7 @@ export default class SoundAmplifiersBroker{
     public async getSoundAmplifier(soundAmplifierId : Number)
     {
         try {
-            let response =   await this._brokerCore.apiGet('/api/sound-amplifiers/' + soundAmplifierId);
+            let response =  await this._brokerCore.apiGet('/api/sound-amplifiers/' + soundAmplifierId);
 
             return response.data;
         }
@@ -39,13 +41,14 @@ export default class SoundAmplifiersBroker{
     public async addSoundAmplifier(soundAmplifier : SoundAmplifier)
     {
         try {
-            let response =   await this._brokerCore.apiPost('/api/sound-amplifiers',soundAmplifier.toArray());
+            let response = await this._brokerCore.apiPost('/api/sound-amplifiers',soundAmplifier.toArray());
 
             return response.data;
         }
         catch (exception) {
-
+            
             alert("The given data was invalid.");
+
             throw (exception);
         }
     }
@@ -53,13 +56,13 @@ export default class SoundAmplifiersBroker{
     public async updateSoundAmplifier(soundAmplifier : SoundAmplifier)
     {
         try {
-            let response =   await this._brokerCore.apiPatch('/api/sound-amplifiers/' + soundAmplifier.id, soundAmplifier.toArray());
+            let response =  await this._brokerCore.apiPatch('/api/sound-amplifiers/' + soundAmplifier.id, soundAmplifier.toArray());
 
             return response.data;
         }
         catch (exception) {
-
             alert("The given data was invalid.");
+
             throw (exception);
         }
     }
@@ -91,7 +94,9 @@ export default class SoundAmplifiersBroker{
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
 
         try {
-            return await this._brokerCore.apiGet(url);
+            let response =  await this._brokerCore.apiGet(url);
+
+            return response.data;
         }
         catch (exception) {
             throw (exception);

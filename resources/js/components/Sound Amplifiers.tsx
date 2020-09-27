@@ -74,8 +74,6 @@ export default class SoundAmplifiers extends React.Component {
 
         updatedSoundAmplifier.setAttribute(attribute,value);
 
-        console.log(updatedSoundAmplifier);
-
         this.setState({ tempSoundAmplifier : updatedSoundAmplifier })
     }
 
@@ -85,7 +83,7 @@ export default class SoundAmplifiers extends React.Component {
             case 'UPDATE' : this.updateSoundAmplifier(soundAmplifier); break;
             case 'DELETE' : this.deleteSoundAmplifier(soundAmplifier.id); break;
         }
-
+        
         this.setState({
             imageResults : new Array<Image>(),
         })
