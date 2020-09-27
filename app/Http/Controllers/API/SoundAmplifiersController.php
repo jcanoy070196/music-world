@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\SoundAmplifiersService;
+use Exception;
+
 
 class SoundAmplifiersController extends Controller
 {
@@ -31,9 +33,16 @@ class SoundAmplifiersController extends Controller
     public function createSoundAmplifier(Request $request, SoundAmplifiersService $soundAmplifiersService)
     {
         try{
-            $soundAmplifiersService->createSoundAmplifier($request->body);
 
-            return  "Sound Amplifier Created Successfully";
+            $validatedData = $request->validate([
+                'model' => 'required|max:255',
+                'type' => 'required|max:255',
+                'img_src' => 'required|max:255',
+            ]);
+
+            $soundAmplifier = $soundAmplifiersService->createSoundAmplifier($validatedData);
+
+            return  $soundAmplifier->toArray();
 
         }catch(Exception $ex)
         {   
@@ -58,7 +67,14 @@ class SoundAmplifiersController extends Controller
     public function updateSoundAmplifier(Request $request, SoundAmplifiersService $soundAmplifiersService, $soundAmplifierId)
     {
         try{
-            $soundAmplifiersService->updateSoundAmplifier($soundAmplifierId, $request->body);
+            $validatedData = $request->validate([
+                'id' => 'required|integer',
+                'model' => 'required|max:255',
+                'type' => 'required|max:255',
+                'img_src' => 'required|max:255',
+            ]);
+
+            $soundAmplifiersService->updateSoundAmplifier($soundAmplifierId, $validatedData);
 
             return  "Sound Amplifier Updated Successfully";
             

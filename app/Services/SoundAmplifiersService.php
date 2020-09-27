@@ -3,11 +3,14 @@
 namespace App\Services;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
+use App\Models\SoundAmplifier;
 
 class SoundAmplifiersService
 {
     private $dbName = 'sound_amplifiers';
-    
+
     public function getSoundAmplifiers() : Collection
     {
         $soundAmplifiersCollection = DB::table($this->dbName)->get();
@@ -19,9 +22,18 @@ class SoundAmplifiersService
 
     public function createSoundAmplifier($data = [])
     {
-        DB::table($this->dbName)->insert(
+        $soundAmplifierId = DB::table($this->dbName)->insertGetId(
             ['model' => $data['model'],'type' => $data['type'],'img_src' => $data['img_src']]
         );
+
+        $soundAmplifier = new SoundAmplifier();
+
+        $soundAmplifier->id = $soundAmplifierId;
+        $soundAmplifier->model = $data['model'];
+        $soundAmplifier->type = $data['type'];
+        $soundAmplifier->img_src = $data['img_src'];
+
+        return $soundAmplifier;
     }
 
     public function getSoundAmplifier($soundAmplifierId) 

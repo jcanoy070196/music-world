@@ -22,9 +22,18 @@ class InstrumentsService
 
     public function createInstrument($data = [])
     {
-        DB::table($this->dbName)->insert(
+        $instrumentId = DB::table($this->dbName)->insertGetId(
             ['model' => $data['model'],'type' => $data['type'],'img_src' => $data['img_src']]
         );
+
+        $instrument = new Instrument();
+
+        $instrument->id = $instrumentId;
+        $instrument->model = $data['model'];
+        $instrument->type = $data['type'];
+        $instrument->img_src = $data['img_src'];
+
+        return $instrument;
     }
 
     public function getInstrument($instrumentId) 

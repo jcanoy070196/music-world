@@ -33,9 +33,15 @@ class InstrumentsController extends Controller
     public function createInstrument(Request $request, InstrumentsService $instrumentsService)
     {
         try{
-            $instrumentsService->createInstrument($request->body);
+            $validatedData = $request->validate([
+                'model' => 'required|max:255',
+                'type' => 'required|max:255',
+                'img_src' => 'required|max:255',
+            ]);
 
-            return  "Instrument Created Successfully";
+            $instrument = $instrumentsService->createInstrument($validatedData);
+
+            return  $instrument->toArray();
 
         }catch(Exception $ex)
         {   
@@ -60,7 +66,15 @@ class InstrumentsController extends Controller
     public function updateInstrument(Request $request, InstrumentsService $instrumentsService, $instrumentId)
     {
         try{
-            $instrumentsService->updateInstrument($instrumentId, $request->body);
+
+            $validatedData = $request->validate([
+                'id' => 'required|integer',
+                'model' => 'required|max:255',
+                'type' => 'required|max:255',
+                'img_src' => 'required|max:255',
+            ]);
+
+            $instrumentsService->updateInstrument($instrumentId, $validatedData);
 
             return  "Instrument Updated Successfully";
             
@@ -74,6 +88,7 @@ class InstrumentsController extends Controller
     public function deleteInstrument(Request $request, InstrumentsService $instrumentsService,$instrumentId)
     {
         try{
+
             $instrumentsService->deleteInstrument($instrumentId);
 
             return "Instrument Deleted Successfully";

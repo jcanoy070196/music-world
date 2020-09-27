@@ -1,11 +1,16 @@
+import Model from './Model';
 
-
-export default class Instrument
+export default class Instrument extends Model
 {
-    public id : number | null = null;
-    public model : String | null = null;
-    public type : String | null = null;
-    public img_src : String | null = null;
+    public id : number = 0;
+    public model : string  = '';
+    public type : string  = '';
+    public img_src : string  = '/favicon.ico';
+
+    protected readonly _setableAttributes : Object = {
+        'id' : '', 'model' : '', 'type' : '', 'img_src' : '', 
+
+    };
 
 
     public toArray()
@@ -18,4 +23,5 @@ export default class Instrument
         };
     }
 
+    
 }
